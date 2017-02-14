@@ -141,11 +141,14 @@ fi
         # A directory with a git repository containing the source code already exists.
         cd mlat-client >> $LOG_FILE
         git pull >> $LOG_FILE 2>&1
-        git checkout tags/$MLAT_CLIENT_TAG >> $LOG_FILE 2>&1
     else
         # A directory containing the source code does not exist locally.
         git clone https://github.com/mutability/mlat-client.git >> $LOG_FILE 2>&1
         cd mlat-client >> $LOG_FILE 2>&1
+    fi
+
+    # If a git tag has been specified then check that out.
+    if [[ -n "${MLAT_CLIENT_TAG}" ]] ; then
         git checkout tags/$MLAT_CLIENT_TAG >> $LOG_FILE 2>&1
     fi
 
