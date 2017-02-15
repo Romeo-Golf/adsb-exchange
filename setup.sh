@@ -31,6 +31,8 @@
 
 RECEIVER_PROJECT_TITLE="ADS-B Exchange Setup Script"
 LOG_DIRECTORY="$PWD/logs"
+
+MLAT_CLIENT_GITHUB_URL="https://github.com/mutability/mlat-client.git"
 MLAT_CLIENT_VERSION="0.2.7"
 MLAT_CLIENT_TAG="v0.2.7"
 
@@ -140,10 +142,10 @@ fi
     if [[ -d mlat-client ]] && [[ -d mlat-client/.git ]] ; then
         # A directory with a git repository containing the source code already exists.
         cd mlat-client >> ${LOG_FILE} 2>&1
-        git fetch --tags >> ${LOG_FILE} 2>&1
+        git fetch --tags ${MLAT_CLIENT_GITHUB_URL} >> ${LOG_FILE} 2>&1
     else
         # A directory containing the source code does not exist locally.
-        git clone https://github.com/mutability/mlat-client.git >> ${LOG_FILE} 2>&1
+        git clone ${MLAT_CLIENT_GITHUB_URL} >> ${LOG_FILE} 2>&1
         cd mlat-client >> ${LOG_FILE} 2>&1
     fi
 
