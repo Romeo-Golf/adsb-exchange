@@ -138,8 +138,8 @@ fi
     echo "-----------------------------------" >> $LOG_FILE
     echo "" >> $LOG_FILE
 
-    # Check if build directory exists and contains a git repository.
-    if [[ -d mlat-client ]] && [[ -d mlat-client/.git ]] ; then
+    # Check if build directory exists and contains the mlat-client git repository.
+    if [[ -d "mlat-client/.git" ]] && [[ `grep -c "url = ${MLAT_CLIENT_GITHUB_URL}" mlat-client/.git/config` -gt 0 ]] ; then
         # A directory with a git repository containing the source code already exists.
         cd mlat-client >> ${LOG_FILE} 2>&1
         git fetch --tags ${MLAT_CLIENT_GITHUB_URL} >> ${LOG_FILE} 2>&1
