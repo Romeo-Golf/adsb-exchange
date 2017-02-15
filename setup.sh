@@ -140,16 +140,20 @@ fi
     if [ -d mlat-client ] && [ -d mlat-client/.git ]; then
         # A directory with a git repository containing the source code already exists.
         cd mlat-client >> $LOG_FILE
-        git pull >> $LOG_FILE 2>&1
+        git fetch --tags >> ${LOG_FILE} 2>&1
     else
         # A directory containing the source code does not exist locally.
         git clone https://github.com/mutability/mlat-client.git >> $LOG_FILE 2>&1
         cd mlat-client >> $LOG_FILE 2>&1
     fi
 
-    # If a git tag has been specified then check that out.
-    if [[ -n "${MLAT_CLIENT_TAG}" ]] ; then
+    # Attempt to check out the required code version based on the supplied tag.
+    if [[ -n "${MLAT_CLIENT_TAG}" ]] && [[ `git ls-remote 2>/dev/null| grep -c "refs/tags/${MLAT_CLIENT_TAG}"` -gt 0 ]] ; then
+        # If a valid git tag has been specified then check that out.
         git checkout tags/$MLAT_CLIENT_TAG >> $LOG_FILE 2>&1
+    else
+        # Otherwise checkout the master branch.
+        git checkout master  >> ${LOG_FILE} 2>&1
     fi
 
     echo 34
