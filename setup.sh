@@ -138,11 +138,12 @@ fi
     echo "-----------------------------------" >> $LOG_FILE
     echo "" >> $LOG_FILE
 
-    # Check if build directory exists and contains the mlat-client git repository.
+    # Check if build directory exists and contains the relevant git repository.
     if [[ -d "mlat-client/.git" ]] && [[ `grep -c "url = ${MLAT_CLIENT_GITHUB_URL}" mlat-client/.git/config` -gt 0 ]] ; then
         # A directory with a git repository containing the source code already exists.
         cd mlat-client >> ${LOG_FILE} 2>&1
         git fetch --tags ${MLAT_CLIENT_GITHUB_URL} >> ${LOG_FILE} 2>&1
+        git reset --hard origin/master >> ${LOG_FILE} 2>&1
     else
         # A directory containing the source code does not exist locally.
         git clone ${MLAT_CLIENT_GITHUB_URL} >> ${LOG_FILE} 2>&1
@@ -167,7 +168,7 @@ fi
         git checkout tags/${MLAT_CLIENT_TAG} >> ${LOG_FILE} 2>&1
     else
         # Otherwise checkout the master branch.
-        git checkout master  >> ${LOG_FILE} 2>&1
+        git checkout master >> ${LOG_FILE} 2>&1
     fi
 
     echo 34
